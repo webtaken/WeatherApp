@@ -1,0 +1,19 @@
+{
+  "name": "weather_server",
+  "version": "1.0.0",
+  "description": "A server for handling request from whatsapp api for my weather app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Saul Rojas Coila",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "whatsapp-cloud-api": "^0.2.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
