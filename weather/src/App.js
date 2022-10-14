@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+// import M from 'materialize-css';
+import GeoManager from './components/Geolocalization/GeoManager';
+import WeatherManager from './components/Weather/WeatherManager';
 
 function App() {
+  const [latLng, setLatLng] = useState({
+    lat: -16.39780220442039,
+    lng: -71.53694792361391
+  });
+
+  const updateLatLngHandler = (lat, lng) => {
+    setLatLng({ lat, lng });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div className='container'>
+      <GeoManager
+        updateCenter={updateLatLngHandler}
+        latLng={latLng} />
+
+      <WeatherManager
+        latLng={latLng} />
+    </div >
   );
 }
 
