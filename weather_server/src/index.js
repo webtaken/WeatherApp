@@ -4,7 +4,6 @@ const axios = require("axios");
 const cors = require('cors');
 
 // modulos de comandos
-
 require("dotenv").config();
 
 // creando el servidor express
@@ -55,49 +54,104 @@ app.post("/geolocation", cors(), async (req, res) => {
   let address = encodeURIComponent(req.body.address.trim());
   let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GEOCODING_API_KEY}`
 
-  const response = await axios.get(url);
+  try {
+    const response = await axios.get(url);
 
-  if (response.status !== 200) {
-    res.status(400).json({
-      status: "ERROR"
-    });
-    return;
-  }
-
-  let data = response.data;
-
-  if (data.status !== "OK") {
-    if (data.status === "ZERO_RESULTS") {
-      res.status(404).json({
-        status: "NO FOUND RESULTS"
-      });
-    } else {
+    if (response.status !== 200) {
       res.status(400).json({
         status: "ERROR"
       });
+      return;
     }
-    return;
-  }
 
-  // ahora manejamos la respuesta, devolvemos el primer resultado
-  res.status(200).json({
-    status: "OK",
-    result: {
-      lat: data.results[0].geometry.location.lat,
-      lng: data.results[0].geometry.location.lng,
-      bounds: data.results[0].geometry.viewport
+    let data = response.data;
+
+    if (data.status !== "OK") {
+      if (data.status === "ZERO_RESULTS") {
+        res.status(404).json({
+          status: "NO FOUND RESULTS"
+        });
+      } else {
+        res.status(400).json({
+          status: "ERROR"
+        });
+      }
+      return;
     }
-  });
+
+    // ahora manejamos la respuesta, devolvemos el primer resultado
+    res.status(200).json({
+      status: "OK",
+      result: {
+        lat: data.results[0].geometry.location.lat,
+        lng: data.results[0].geometry.location.lng,
+        bounds: data.results[0].geometry.viewport
+      }
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      status: "ERROR"
+    });
+  }
 });
 
-app.post("/weather", (req, res) => {
+
+// options for good configuration
+app.options("/weather", cors());
+app.post("/weather", cors(), async (req, res) => {
   let lat = req.body.lat;
   let lng = req.body.lng;
-  console.log("lat:", lat);
-  console.log("lng:", lng);
-  res.status(200).json({
-    status: "OK"
-  });
+
+  let url = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lng}&key=${process.env.WEATHERBIT_API_KEY}&lang=es`
+
+  try {
+    const response = await axios.get(url);
+
+    if (response.status !== 200) {
+      res.status(400).json({
+        status: "ERROR"
+      });
+      return;
+    }
+
+    let data = response.data;
+
+    // si no se devolvió ninguna llamada
+    if (!data || !data.count) {
+      res.status(400).json({
+        status: "ERROR"
+      });
+      return;
+    }
+
+    let metrics = data.data[0];
+    console.log(metrics);
+    // ahora manejamos la respuesta, devolvemos el primer resultado
+    res.status(200).json({
+      status: "OK",
+      result: {
+        cityName: metrics.city_name,
+        icon: metrics.weather.icon,
+        temp: metrics.temp,
+        pod: metrics.pod,
+        description: metrics.weather.description,
+        pres: metrics.pres,
+        windSpd: metrics.wind_spd,
+        rh: metrics.rh,
+        dewpt: metrics.dewpt,
+        clouds: metrics.clouds,
+        vis: metrics.vis,
+        precip: metrics.precip,
+        uv: metrics.uv
+      }
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      status: "ERROR"
+    });
+  }
 });
 
 
