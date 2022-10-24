@@ -43,7 +43,7 @@ const MapView = (props) => {
       [props.bounds.northeast.lat, props.bounds.southwest.lng]];
   }
 
-  return <MapContainer center={[props.latLng.lat, props.latLng.lng]} zoom={15} scrollWheelZoom={false}>
+  return <MapContainer center={[props.latLng.lat, props.latLng.lng]} zoom={15} scrollWheelZoom={true}>
     <TileLayer
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -28,8 +28,9 @@ function App() {
       <div className='row container'>
         <ul className='collection'>
           <li className='collection-item'>Busca un lugar del mundo 🌎 o selecciona tu ubicación.</li>
-          <li className='collection-item'>Dale clic en "VER CLIMA" ⛅</li>
+          <li className='collection-item'>Dale clic en "VER CLIMA" ⛅.</li>
           <li className='collection-item'>Desplázate hacia abajo para ver las recomendaciones 🎫.</li>
+          <li className='collection-item'>Esperamos que haya sido útil, que tengas buen día 😉.</li>
         </ul>
       </div>
       <GeoManager

@@ -37,7 +37,6 @@ const WeatherManager = (props) => {
       }
 
       let metrics = data.result;
-      console.log(metrics);
       setWeatherMetrics(prevMetrics => {
         return { ...metrics }
       });
