@@ -51,7 +51,6 @@ app.get("/", (req, res) => {
 // options for good configuration
 app.options("/geolocation", cors());
 app.post("/geolocation", cors(), async (req, res) => {
-  console.log(req.body);
   let address = encodeURIComponent(req.body.address.trim());
   let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.GEOCODING_API_KEY}`
 
@@ -117,7 +116,6 @@ app.post("/weather", cors(), async (req, res) => {
     }
 
     let data = response.data;
-    console.log(data);
     // si no se devolvió ninguna llamada
     if (!data || !data.count) {
       res.status(400).json({
@@ -127,7 +125,6 @@ app.post("/weather", cors(), async (req, res) => {
     }
 
     let metrics = handleWeatherMetrics(data.data[0]);
-    console.log(metrics);
     // ahora manejamos la respuesta, devolvemos el primer resultado
     res.status(200).json({
       status: "OK",
