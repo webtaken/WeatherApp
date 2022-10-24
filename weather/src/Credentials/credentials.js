@@ -1,5 +1,5 @@
 const credentials = {
-  BACKEND_ENDPOINT: `http://localhost:8000`
+  BACKEND_ENDPOINT: `https://weathlifyapp.onrender.com`
 };
 
 export default credentials;
