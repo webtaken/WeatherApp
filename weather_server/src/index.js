@@ -1,6 +1,7 @@
 const express = require("express");
 const body_parser = require("body-parser");
 const axios = require("axios");
+const handleWeatherMetrics = require("./weather");
 const cors = require('cors');
 
 // modulos de comandos
@@ -116,7 +117,7 @@ app.post("/weather", cors(), async (req, res) => {
     }
 
     let data = response.data;
-
+    console.log(data);
     // si no se devolvió ninguna llamada
     if (!data || !data.count) {
       res.status(400).json({
@@ -125,26 +126,12 @@ app.post("/weather", cors(), async (req, res) => {
       return;
     }
 
-    let metrics = data.data[0];
+    let metrics = handleWeatherMetrics(data.data[0]);
     console.log(metrics);
     // ahora manejamos la respuesta, devolvemos el primer resultado
     res.status(200).json({
       status: "OK",
-      result: {
-        cityName: metrics.city_name,
-        icon: metrics.weather.icon,
-        temp: metrics.temp,
-        pod: metrics.pod,
-        description: metrics.weather.description,
-        pres: metrics.pres,
-        windSpd: metrics.wind_spd,
-        rh: metrics.rh,
-        dewpt: metrics.dewpt,
-        clouds: metrics.clouds,
-        vis: metrics.vis,
-        precip: metrics.precip,
-        uv: metrics.uv
-      }
+      result: metrics
     });
 
   } catch (error) {

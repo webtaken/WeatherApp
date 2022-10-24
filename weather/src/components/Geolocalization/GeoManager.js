@@ -6,6 +6,7 @@ import M from 'materialize-css';
 
 const GeoManager = (props) => {
   const [placeName, setPlaceName] = useState();
+  const [placeBounds, setPlaceBounds] = useState();
 
   const validPlaceName = placeName && placeName.trim() !== "";
 
@@ -25,15 +26,23 @@ const GeoManager = (props) => {
   const searchPlaceHandler = async (event) => {
     event.preventDefault();
 
-    let address = encodeURIComponent(placeName.trim());
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${credentials.GEOCODE_API_KEY}`;
-
+    let url = `${credentials.BACKEND_ENDPOINT}/geolocation`;
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify({
+          address: placeName
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      });
+
       const data = await response.json();
       if (!response.ok) {
         throw Error(response.status);
       }
+
       // igualmente parsearemos el status de nuestros datos, devueltos por google
       if (data.status !== "OK") {
         M.toast({
@@ -44,18 +53,22 @@ const GeoManager = (props) => {
         return;
       }
 
-      // ahora manejamos la respuesta
-      let _lat = data.results[0].geometry.location.lat;
-      let _lng = data.results[0].geometry.location.lng;
-
       M.toast({
         html: 'Volando a tu destino',
         displayLength: 3000,
         classes: 'green'
       });
 
+      // ahora manejamos la respuesta
+      let _lat = data.result.lat;
+      let _lng = data.result.lng;
+      let _bounds = data.result.bounds;
+
+      // actualizamos los límites de la región
+      setPlaceBounds(_bounds);
       // ejecutamos esta funcionalidad
       props.updateCenter(_lat, _lng);
+
     } catch (error) {
       M.toast({
         html: 'Ocurrió un error',
@@ -78,7 +91,7 @@ const GeoManager = (props) => {
         validPlace={validPlaceName} />
       <div className="row">
         <div className="col s12">
-          <MapView LatLng={props.latLng} />
+          <MapView latLng={props.latLng} bounds={placeBounds} />
         </div>
       </div>
       <div className="row">

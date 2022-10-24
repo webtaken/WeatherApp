@@ -10,8 +10,8 @@ function App() {
     lng: -71.53694792361391
   });
 
-  const updateLatLngHandler = (lat, lng) => {
-    setLatLng({ lat, lng });
+  const updateLatLngHandler = (_lat, _lng) => {
+    setLatLng({ lat: _lat, lng: _lng });
   };
 
   return (

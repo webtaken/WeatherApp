@@ -3,7 +3,8 @@ import {
   TileLayer,
   Marker,
   Popup,
-  useMap
+  useMap,
+  Rectangle
 } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -19,25 +20,37 @@ L.Icon.Default.mergeOptions({
 const MyMap = (props) => {
   const map = useMap();
 
-  map.flyTo({ lat: props.LatLng.lat, lng: props.LatLng.lng });
+  map.flyTo({ lat: props.latLng.lat, lng: props.latLng.lng });
 
   return (
-    <Marker position={[props.LatLng.lat, props.LatLng.lng]}>
+    <Marker position={[props.latLng.lat, props.latLng.lng]}>
       <Popup>
         Tu ubicación actual.
       </Popup>
+      {props.bounds && <Rectangle
+        bounds={props.bounds}
+        pathOptions={{ color: "#84e89f", weight: 1 }}
+      />}
     </Marker>
   );
 };
 
 const MapView = (props) => {
-  return <MapContainer center={[props.LatLng.lat, props.LatLng.lng]} zoom={15} scrollWheelZoom={false}>
+  let leafletBounds = null;
+  if (props.bounds) {
+    leafletBounds = [
+      [props.bounds.southwest.lat, props.bounds.northeast.lng],
+      [props.bounds.northeast.lat, props.bounds.southwest.lng]];
+  }
+
+  return <MapContainer center={[props.latLng.lat, props.latLng.lng]} zoom={15} scrollWheelZoom={false}>
     <TileLayer
-      attribution='<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      url="https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
+      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       maxZoom={20}
     />
-    <MyMap LatLng={props.LatLng} />
+    {leafletBounds ? <MyMap latLng={props.latLng} bounds={leafletBounds} /> :
+      <MyMap latLng={props.latLng} />}
   </MapContainer>
 };
 

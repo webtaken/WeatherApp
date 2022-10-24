@@ -17,7 +17,7 @@ const GeolocalizationForm = (props) => {
         <div className="row">
           <div className="input-field col s7 offset-s2">
             <input
-              placeholder="Busca un lugar, p.ej. Lima, Perú"
+              placeholder="Busca un lugar, p.ej. Arequipa, Perú"
               id="place"
               type="text"
               className="validate"
