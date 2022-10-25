@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Weathlify is an App for weather that gives you some recommendations, its basic features are **geolocalization** of a place around the world (you search by specific name) or your current location, **weather metrics** for the place you search and the last one is **recommendations** for the day based on that metrics such as wearing a coat or scarf if temperature is very cold for example.
+Weathlify is an App for weather that gives you some recommendations, its basic features are **geolocalization** of a place around the world (you search by specific name) or your current location, **weather metrics** for the place you search and the last one is **recommendations** for the day based on that metrics such as wearing a coat or scarf if temperature is very cold for example. You can see a demo in the following link: [DEMO](https://weathlify-app.netlify.app/).
 
 ## Technologies
 
