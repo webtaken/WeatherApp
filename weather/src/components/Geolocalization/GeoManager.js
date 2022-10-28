@@ -7,6 +7,7 @@ import M from 'materialize-css';
 const GeoManager = (props) => {
   const [placeName, setPlaceName] = useState();
   const [placeBounds, setPlaceBounds] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const validPlaceName = placeName && placeName.trim() !== "";
 
@@ -25,7 +26,7 @@ const GeoManager = (props) => {
   // Esta función se envía cuando se busca un lugar
   const searchPlaceHandler = async (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
     let url = `${credentials.BACKEND_ENDPOINT}/geolocation`;
     try {
       const response = await fetch(url, {
@@ -76,6 +77,7 @@ const GeoManager = (props) => {
         classes: 'red'
       });
     }
+    setIsLoading(false);
   }
 
   const changePlaceNameHandler = (event) => {
@@ -89,6 +91,12 @@ const GeoManager = (props) => {
         onChangePlaceName={changePlaceNameHandler}
         onSearch={searchPlaceHandler}
         validPlace={validPlaceName} />
+
+      {isLoading &&
+        <div className="progress">
+          <div className="indeterminate"></div>
+        </div>}
+
       <div className="row">
         <div className="col s12">
           <MapView latLng={props.latLng} bounds={placeBounds} />
@@ -101,7 +109,6 @@ const GeoManager = (props) => {
         >Ubicación
           <i className="material-icons right">my_location</i>
         </button>
-
       </div>
     </>
   );

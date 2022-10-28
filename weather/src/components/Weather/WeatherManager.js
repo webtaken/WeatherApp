@@ -7,10 +7,11 @@ import M from 'materialize-css';
 
 const WeatherManager = (props) => {
   const [weatherMetrics, setWeatherMetrics] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getWeatherHandler = async () => {
+    setIsLoading(true);
     let url = `${credentials.BACKEND_ENDPOINT}/weather`;
-
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -40,8 +41,6 @@ const WeatherManager = (props) => {
       setWeatherMetrics(prevMetrics => {
         return { ...metrics }
       });
-
-
     } catch (error) {
       M.toast({
         html: 'Ocurrió un error',
@@ -49,7 +48,7 @@ const WeatherManager = (props) => {
         classes: 'red'
       });
     }
-
+    setIsLoading(false);
   };
 
   let weatherComponent = <></>;
@@ -104,6 +103,10 @@ const WeatherManager = (props) => {
           <i className="material-icons right">cloud</i>
         </button>
       </div>
+      {isLoading &&
+        <div className="progress">
+          <div className="indeterminate"></div>
+        </div>}
       {weatherComponent}
     </>
   );

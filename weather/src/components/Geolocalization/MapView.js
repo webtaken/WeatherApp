@@ -47,7 +47,7 @@ const MapView = (props) => {
     <TileLayer
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      maxZoom={20}
+      maxZoom={19}
     />
     {leafletBounds ? <MyMap latLng={props.latLng} bounds={leafletBounds} /> :
       <MyMap latLng={props.latLng} />}

@@ -55,7 +55,7 @@ const uvRecommendations = (uv) => {
     description = "✔ El índice UV está a niveles medios por tu zona, utiliza sombrero y prendas que te cubran, protector solar, permanece en lugares con sombra y cuida a tus bebés 👶.";
   } else {
     imgSrc = <img src={UvHigh} alt="uv elevado" />;
-    description = "❗ El índice UV está a niveles altos por tu zona, utiliza sombrero y prendas que te cubran, protector solar, permanece en interiores y cuida a los niños 👦👧.";
+    description = "❗ El índice UV está a niveles altos por tu zona, utiliza sombrero y prendas que te cubran, protector solar, permanece en interiores y cuida a los niños del sol 👦👧.";
   }
   return {
     imgSrc: imgSrc,
@@ -89,13 +89,13 @@ const humidityRecommendations = (rh, dewpt) => {
   let imgSrc, description;
   if (rh >= 80) {
     imgSrc = <img src={HumedadRocio} alt="rocío" />
-    description = `Estás cerca del punto de rocío ${dewpt}°C 💦 cuidate de la humedad excesiva`;
+    description = `Estás cerca del punto de rocío ${dewpt}°C 💦 cuidate de la humedad excesiva, recuerda desempañar el parabrisas de tu auto y otros espejos`;
   } else if (rh <= 20) {
     imgSrc = <img src={HumedadSeco} alt="aire seco" />
-    description = "El aire está muy seco ⌛";
+    description = "El aire está muy seco ⌛, no olvides hidratar tu piel y tomar agua 💧.";
   } else {
     imgSrc = <img src={HumedadNormal} alt="humedad normal" />
-    description = "El aire no está ni húmedo ni seco 🍃.";
+    description = "El aire no está ni húmedo ni seco, igualmente trata de hidratarte regularmente 🍃.";
   }
   return {
     imgSrc: imgSrc,
